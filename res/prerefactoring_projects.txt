@@ -1,0 +1,68 @@
+Problem01:
+------------ start
+import cv2
+import numpy as np
+import os
+import pandas as pd
+
+def get_file_count(folder_path):
+    count = 0
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".png"):
+            count += 1
+    return count
+
+def crop_image_border(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    thresh_value = 100
+    _, thresh = cv2.threshold(gray, thresh_value, 255, cv2.THRESH_BINARY)
+    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    largest_contour = max(contours, key=cv2.contourArea)
+    x, y, w, h = cv2.boundingRect(largest_contour)
+    croped_img = image[y:y+h, x:x+w]
+    return croped_img
+
+def get_similar_mask_cnt(image, mask):
+    height, width, _ = image.shape
+    square_size = height // 8
+    similar_cnt = 0
+    for i in range(8):
+        for j in range(8):
+            x = j * square_size
+            y = i * square_size
+            square_img = image[y:y+square_size, x:x+square_size]
+            result = cv2.matchTemplate(square_img, mask, cv2.TM_CCOEFF_NORMED)
+            threshold = 0.8
+            if cv2.minMaxLoc(result)[1] >= threshold:
+                similar_cnt += 1
+    return similar_cnt
+
+folder_path = "res/problem01/test"
+predictions = []
+images_count = get_file_count(folder_path)
+
+for i in range(1, images_count + 1):
+    img = cv2.imread(folder_path + f'/img{i}.png')
+    new_img = crop_image_border(img)
+    black_cnt = 0
+    for j in range(1, 13):
+        mask = cv2.imread(f'res/templates/black/{j}.png')
+        black_cnt += get_similar_mask_cnt(new_img, mask)
+
+    white_cnt = 0
+    for j in range(1, 13):
+        mask = cv2.imread(f'res/templates/white/{j}.png')
+        white_cnt += get_similar_mask_cnt(new_img, mask)
+
+    label = -1
+    if white_cnt > black_cnt:
+        label = 1
+    elif black_cnt > white_cnt:
+        label = 0
+    
+    predictions.append((f'img{i}', label))
+
+headers = ['image', 'label']
+df = pd.DataFrame(predictions)
+df.to_csv('predictions.csv', index=False, header=headers)
+------------ end
