@@ -1,7 +1,9 @@
-import pandas as pd
+import cv2
 
-matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+img = cv2.imread('res/Problem01/test/img19060.png')
 
-df = pd.DataFrame(matrix)
+cv2.imshow("image", img)
 
-df.to_csv('matrix.csv', index=False, header=True)
+cv2.waitKey(0)
+
+cv2.destroyAllWindows()

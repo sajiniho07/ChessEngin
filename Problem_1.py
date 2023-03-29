@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 import os
 import pandas as pd
 
@@ -30,9 +29,7 @@ folder_path = "res/Problem01/test"
 predictions = []
 images_count = count_files_with_extension(folder_path, ".png")
 
-
-print(f'total_image: {images_count}')
-for i in range(1, images_count + 1):
+for i in range(0, images_count):
     img = cv2.imread(os.path.join(folder_path, f'img{i}.png'))
     new_img = crop_image_border(img)
 
