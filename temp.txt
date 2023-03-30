@@ -1,0 +1,5 @@
+image: 1  -- 0 -- tws: 31  ---- tbs: 32
+image: 2  -- 1 -- tws: 33  ---- tbs: 32
+image: 3  -- -1 -- tws: 26  ---- tbs: 26
+image: 4  -- 1 -- tws: 25  ---- tbs: 22
+image: 5  -- 1 -- tws: 26  ---- tbs: 24

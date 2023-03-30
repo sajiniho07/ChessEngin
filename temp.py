@@ -1,9 +1,17 @@
 import cv2
+import os
+import re
 
-img = cv2.imread('res/Problem01/test/img19060.png')
 
-cv2.imshow("image", img)
+black_tem_path = "res/templates_prob_2/black/"
+black_file_list = os.listdir(black_tem_path)
 
-cv2.waitKey(0)
 
-cv2.destroyAllWindows()
+for filename in black_file_list:
+    result = re.findall(r"(?<=_)\d+", filename)[0]
+    print(result)
+
+
+# cv2.imshow("image", img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
