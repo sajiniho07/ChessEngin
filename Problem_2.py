@@ -16,7 +16,6 @@ def crop_image_border(image):
     cropped_img = image[y:y+h, x:x+w]
     return cropped_img
 
-
 def get_similar_mask_cnt(image, mask):
     height, width, _ = image.shape
     square_size = height // 8
@@ -33,12 +32,12 @@ black_file_list = os.listdir(black_tem_path)
 white_tem_path = "res/templates_prob_2/white/"
 white_file_list = os.listdir(white_tem_path)
 
-folder_path = "res/templates_prob_2/source"
+folder_path = "res/Problem02/test"
 predictions = []
 images_count = count_files_with_extension(folder_path, ".png")
 
-for i in range(1, images_count + 1):
-    img = cv2.imread(os.path.join(folder_path, f'img ({i}).png'))
+for i in range(0, images_count):
+    img = cv2.imread(os.path.join(folder_path, f'img{i}.png'))
     new_img = crop_image_border(img)
 
     black_total_score = sum(get_similar_mask_cnt(new_img, cv2.imread(os.path.join(black_tem_path, filename))) * 
