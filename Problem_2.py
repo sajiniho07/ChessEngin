@@ -26,10 +26,10 @@ def get_similar_mask_cnt(image, mask):
                            cv2.TM_CCOEFF_NORMED))[1] >= 0.8)
     return similar_cnt
 
-black_tem_path = "res/templates_labeled/black/"
+black_tem_path = "res/templates_labeled_score/black/"
 black_file_list = os.listdir(black_tem_path)
 
-white_tem_path = "res/templates_labeled/white/"
+white_tem_path = "res/templates_labeled_score/white/"
 white_file_list = os.listdir(white_tem_path)
 
 folder_path = "res/Problem02/test"

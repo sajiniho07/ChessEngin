@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 
 def crop_image_border(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -26,7 +27,15 @@ def template_maker(image, prefix_name):
             if num_colors > 2:
                 cv2.imwrite(prefix_name + f'_{i*8+j}.png', square_img)
 
-for i in range(1, 31):
-    img = cv2.imread(f'res/templates/img ({i}).png')
+main_source_path = "res/templates_labeled_score/source/"
+main_file_list = os.listdir(main_source_path)
+
+i = 1
+for main_file_name in main_file_list:
+    img = cv2.imread(os.path.join(main_source_path, main_file_name))
     new_img = crop_image_border(img)
-    template_maker(new_img, f'{i}')
+    cv2.imshow("image", new_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    #template_maker(new_img, f'{i}')
+    i += 1

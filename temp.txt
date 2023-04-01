@@ -1,5 +1,6 @@
-image: 1  -- 0 -- tws: 31  ---- tbs: 32
-image: 2  -- 1 -- tws: 33  ---- tbs: 32
-image: 3  -- -1 -- tws: 26  ---- tbs: 26
-image: 4  -- 1 -- tws: 25  ---- tbs: 22
-image: 5  -- 1 -- tws: 26  ---- tbs: 24
+image,label
+1b1r1r1k-1p2R1pp-p2PQnp1-2p1N1B1-8-7P-PqP2PP1-4R1K1,1b1r1r1k-1p2R1pp-p2PQnp1-2p1N1B1-8-7P-PqP2PP1-4R1K1
+1b1q3k-4Qbpp-pp1P1p2-1r3N2-6P1-B6P-5P2-3R2K1,1b1q3k-4Qbpp-pp1P1p2-1r3N2-6P1-B6P-5P2-3R2K1
+1b1r1rk1-2pq1pp1-p3p1bp-1pPn4-1P1Np2P-PQN5-1B1P1PP1-R3R1K1,1b1r1rk1-2pq1pp1-p3p1bp-1pPn4-1P1Np2P-PQN5-1B1P1PP1-R3R1K1
+1B1qr1k1-1b3ppp-pn2p3-3pP3-1p3P2-1P5P-P1P1B1P1-R2Q1RK1,1B1qr1k1-1b3ppp-pn2p3-3pP3-1p3P2-1P5P-P1P1B1P1-R2Q1RK1
+1B1qkbnr-1b2pp2-3p3p-6p1-2P5-p1N2N2-PP1QPPPP-2KR1B1R,1B1qkbnr-1b2pp2-3p3p-6p1-2P5-p1N2N2-PP1QPPPP-2KR1B1R
