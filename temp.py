@@ -4,7 +4,8 @@ import re
 import pandas as pd
 
 import chess
-img = cv2.imread("res/Problem03/test/img1.png")
+
+img = cv2.imread("res/Problem03/test/img4561.png")
 
 cv2.imshow('Sharpened Image', img)
 cv2.waitKey(0)

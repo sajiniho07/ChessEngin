@@ -34,6 +34,21 @@ def populate_board(image, mask, board, piece_type, piece_color):
                 piece = chess.Piece(piece_type, piece_color)
                 board.set_piece_at(chess.square(j, 7 - i), piece)
 
+def get_piece_type(filename):
+    name = filename.split(".")[1]
+    if name == 'BISHOP':
+        return chess.BISHOP
+    elif name == 'KING':
+        return chess.KING
+    elif name == 'KNIGHT':
+        return chess.KNIGHT
+    elif name == 'QUEEN':
+        return chess.QUEEN
+    elif name == 'ROOK':
+        return chess.ROOK
+    else:
+        return chess.PAWN
+
 black_tem_path = "res/templates_labeled_name/black/"
 black_file_list = os.listdir(black_tem_path)
 
@@ -50,38 +65,16 @@ for i in range(0, images_count):
     new_img = crop_image_border(img)
     board = chess.Board(fen='8/8/8/8/8/8/8/8 w - - 0 1')
     for filename in black_file_list:
-        name = filename.split(".")[1]
-        piece_type = chess.PAWN
-        if name == 'BISHOP':
-            piece_type = chess.BISHOP
-        elif name == 'KING':
-            piece_type = chess.KING
-        elif name == 'KNIGHT':
-            piece_type = chess.KNIGHT
-        elif name == 'QUEEN':
-            piece_type = chess.QUEEN
-        elif name == 'ROOK':
-            piece_type = chess.ROOK
+        piece_type = get_piece_type(filename)
         mask = cv2.imread(os.path.join(black_tem_path, filename))
         populate_board(new_img, mask, board, piece_type, chess.BLACK)
 
     for filename in white_file_list:
-        name = filename.split(".")[1]
-        piece_type = chess.PAWN
-        if name == 'BISHOP':
-            piece_type = chess.BISHOP
-        elif name == 'KING':
-            piece_type = chess.KING
-        elif name == 'KNIGHT':
-            piece_type = chess.KNIGHT
-        elif name == 'QUEEN':
-            piece_type = chess.QUEEN
-        elif name == 'ROOK':
-            piece_type = chess.ROOK
+        piece_type = get_piece_type(filename)
         mask = cv2.imread(os.path.join(white_tem_path, filename))
         populate_board(new_img, mask, board, piece_type, chess.WHITE)
         
-    fen_str = board.fen().split(" ")[0]
+    fen_str = board.fen().split(" ")[0].replace("/", "-")
     predictions.append((f'img{i}', fen_str))
     print(f'image_log: {i}')
 
