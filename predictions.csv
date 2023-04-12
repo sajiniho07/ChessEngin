@@ -1,7 +1,2 @@
-image,label,board_before,board_after
-img0,Ne3,r6r/pp5p/2p4k/2bNpPp1/3nP1P1/6K1/PP1B4/R4B2 w - - 0 1,r6r/pp5p/2p4k/2b1pPp1/3nP1P1/4N1K1/PP1B4/R4B2 w - - 0 1
-img1,cxb4,5rk1/5p1p/2n3p1/8/1pN3P1/2P1P2q/3PQ3/1R2K3 w - - 0 1,5rk1/5p1p/2n3p1/8/1PN3P1/4P2q/3PQ3/1R2K3 w - - 0 1
-img2,Ka2,8/8/6Bp/2p4P/1p1b4/1K6/8/2k5 w - - 0 1,8/8/6Bp/2p4P/1p1b4/8/K7/2k5 w - - 0 1
-img3,a6,r2r4/p2qk1b1/2pp1ppp/1p2p3/4PP2/P1NQ2N1/BPP3PP/3R2K1 w - - 0 1,r2r4/3qk1b1/p1pp1ppp/1p2p3/4PP2/P1NQ2N1/BPP3PP/3R2K1 w - - 0 1
-img4,Rxd6,6k1/2q3r1/3b3R/2pPp3/p1N1P3/4B3/pKP2P2/8 w - - 0 1,6k1/2q3r1/3R4/2pPp3/p1N1P3/4B3/pKP2P2/8 w - - 0 1
-img5,Rcc8,4kn1Q/4r3/4p3/p7/8/1P5P/P5P1/2RR3K w - - 0 1,2R1kn1Q/4r3/4p3/p7/8/1P5P/P5P1/3R3K w - - 0 1
+image,label
+img0,O-O

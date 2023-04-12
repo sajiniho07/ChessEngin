@@ -13,47 +13,48 @@ import chess
 # fen_after = "5rk1/5p1p/2n3p1/8/1PN3P1/4P2q/3PQ3/1R2K3 w - - 0 1"
 
 # o-o-o
-fen_before = "r3k2r/1pqb1pQ1/p1p1p3/2bpN3/3P4/2NBP3/PP3PP1/R4RK1 w - - 0 1"
-fen_after = "2kr3r/1pqb1pQ1/p1p1p3/2bpN3/3P4/2NBP3/PP3PP1/R4RK1 w - - 0 1"
+# fen_before = "r3k2r/1pqb1pQ1/p1p1p3/2bpN3/3P4/2NBP3/PP3PP1/R4RK1 w - - 0 1"
+# fen_after = "2kr3r/1pqb1pQ1/p1p1p3/2bpN3/3P4/2NBP3/PP3PP1/R4RK1 w - - 0 1"
 
-board_before = chess.Board(fen_before)
-board_after = chess.Board(fen_after)
+# board_before = chess.Board(fen_before)
+# board_after = chess.Board(fen_after)
 
-diffs1 = list(board_before.piece_map().items() - board_after.piece_map().items())
-diffs2 = list(board_after.piece_map().items() - board_before.piece_map().items())
+# diffs1 = list(board_before.piece_map().items() - board_after.piece_map().items())
+# diffs2 = list(board_after.piece_map().items() - board_before.piece_map().items())
 
-move = "0000"
-diffs1_len = diffs1.__len__()
-diffs2_len = diffs2.__len__()
-if (diffs1_len == 2 and diffs2_len == 2):
-    if (diffs1[0][1].piece_type == chess.ROOK.real and diffs1[1][1].piece_type == chess.KING.real):
-        distance = abs(diffs1[0][0] - diffs1[1][0])
-        if (distance == 4):
-            move = "O-O-O"
-        elif (distance == 3):
-            mopve = "O-O"
-elif (diffs1_len == 1 and diffs2_len == 1):
-    if (diffs1[0][1] == diffs2[0][1]):
-        start_square = chess.square_name(diffs1[0][0])
-        end_square = chess.square_name(diffs2[0][0])
-        symbol = diffs2[0][1].symbol()
-        if (diffs2[0][1].piece_type == chess.PAWN.real):
-            move = end_square
-        elif (start_square[0] == end_square[0]):
-            move = symbol + start_square[0] + end_square
-        else:
-            move = symbol + end_square
-elif (diffs1_len == 2 and diffs2_len == 1):
-    if (diffs1[1][1] == diffs2[0][1]):
-        start_square = chess.square_name(diffs1[1][0])
-        end_square = chess.square_name(diffs2[0][0])
-        symbol = diffs2[0][1].symbol()
-        if (diffs2[0][1].piece_type == chess.PAWN.real):
-            move = start_square[0] + 'x' + end_square
-        else:
-            move = symbol + 'x' + end_square
+# move = "0000"
+# diffs1_len = diffs1.__len__()
+# diffs2_len = diffs2.__len__()
+# if (diffs1_len == 2 and diffs2_len == 2):
+#     if (diffs1[0][1].piece_type == chess.ROOK.real and diffs1[1][1].piece_type == chess.KING.real):
+#         distance = abs(diffs1[0][0] - diffs1[1][0])
+#         if (distance == 4):
+#             move = "O-O-O"
+#         elif (distance == 3):
+#             mopve = "O-O"
+# elif (diffs1_len == 1 and diffs2_len == 1):
+#     if (diffs1[0][1] == diffs2[0][1]):
+#         start_square = chess.square_name(diffs1[0][0])
+#         end_square = chess.square_name(diffs2[0][0])
+#         symbol = diffs2[0][1].symbol()
+#         if (diffs2[0][1].piece_type == chess.PAWN.real):
+#             move = end_square
+#         elif (start_square[0] == end_square[0]):
+#             move = symbol + start_square[0] + end_square
+#         else:
+#             move = symbol + end_square
+# elif (diffs1_len == 2 and diffs2_len == 1):
+#     if (diffs1[1][1] == diffs2[0][1]):
+#         start_square = chess.square_name(diffs1[1][0])
+#         end_square = chess.square_name(diffs2[0][0])
+#         symbol = diffs2[0][1].symbol()
+#         if (diffs2[0][1].piece_type == chess.PAWN.real):
+#             move = start_square[0] + 'x' + end_square
+#         else:
+#             move = symbol + 'x' + end_square
     
-print(move)
+# print(move)
+# ---------------------------------------------
         # start_square = chess.square_name(diffs1[0][1])
 # new_var = chess.Move.from_uci(start_square + end_square)
 # if board_after.is_castling(new_var):

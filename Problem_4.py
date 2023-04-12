@@ -75,35 +75,78 @@ def get_move(board_before, board_after):
     diffs2 = list(board_after.piece_map().items() - board_before.piece_map().items())
 
     move = "0000"
-    diffs1_len = diffs1.__len__()
-    diffs2_len = diffs2.__len__()
+    is_white_moved = True
+    diffs1_len = len(diffs1)
+    diffs2_len = len(diffs2)
+
     if (diffs1_len == 2 and diffs2_len == 2):
-        if (diffs1[0][1].piece_type == chess.ROOK.real and diffs1[1][1].piece_type == chess.KING.real):
+        if ((diffs1[0][1].piece_type == chess.ROOK.real and 
+            diffs1[1][1].piece_type == chess.KING.real) or 
+            (diffs1[0][1].piece_type == chess.KING.real and 
+            diffs1[1][1].piece_type == chess.ROOK.real)):
+            is_white_moved = (diffs1[0][1].color == chess.WHITE)
             distance = abs(diffs1[0][0] - diffs1[1][0])
             if (distance == 4):
                 move = "O-O-O"
             elif (distance == 3):
                 move = "O-O"
-    elif (diffs1_len == 1 and diffs2_len == 1):
-        if (diffs1[0][1] == diffs2[0][1]):
+
+    elif diffs1_len == 1 and diffs2_len == 1:
+        is_white_moved = (diffs2[0][1].color == chess.WHITE)
+        if diffs1[0][1] == diffs2[0][1]:
             start_square = chess.square_name(diffs1[0][0])
             end_square = chess.square_name(diffs2[0][0])
-            symbol = diffs2[0][1].symbol()
-            if (diffs2[0][1].piece_type == chess.PAWN.real):
+            symbol = diffs2[0][1].symbol().upper()
+            if diffs2[0][1].piece_type == chess.PAWN.real:
                 move = end_square
-            elif (start_square[0] == end_square[0]):
+            elif start_square[0] == end_square[0] or start_square[1] == end_square[1]:
                 move = symbol + start_square[0] + end_square
             else:
                 move = symbol + end_square
-    elif (diffs1_len == 2 and diffs2_len == 1):
-        if (diffs1[1][1] == diffs2[0][1]):
-            start_square = chess.square_name(diffs1[1][0])
+
+        elif diffs1[0][1].piece_type == chess.PAWN.real and diffs2[0][1].piece_type == chess.QUEEN.real:
             end_square = chess.square_name(diffs2[0][0])
-            symbol = diffs2[0][1].symbol()
-            if (diffs2[0][1].piece_type == chess.PAWN.real):
+            move = end_square + '=Q'
+
+    elif diffs1_len == 2 and diffs2_len == 1:
+        is_white_moved = (diffs2[0][1].color == chess.WHITE)
+        if diffs1[0][1] == diffs2[0][1]:
+            start_square = chess.square_name(diffs1[0][0])
+            end_square = chess.square_name(diffs2[0][0])
+            symbol = diffs2[0][1].symbol().upper()
+            if diffs2[0][1].piece_type == chess.PAWN.real:
                 move = start_square[0] + 'x' + end_square
             else:
                 move = symbol + 'x' + end_square
+
+        elif diffs1[1][1] == diffs2[0][1]:
+            start_square = chess.square_name(diffs1[1][0])
+            end_square = chess.square_name(diffs2[0][0])
+            symbol = diffs2[0][1].symbol().upper()
+            if diffs2[0][1].piece_type == chess.PAWN.real:
+                move = start_square[0] + 'x' + end_square
+            else:
+                move = symbol + 'x' + end_square
+
+    try:
+        fen_before = board_before.fen()
+        components = fen_before.split()
+        if is_white_moved:
+            components[1] = 'w'
+        else:
+            components[1] = 'b'
+        fen = ' '.join(components)
+        board_cp = chess.Board(fen)
+        board_cp.push_san(move)
+    except Exception as e:
+        pass
+
+    if board_cp.is_check():
+        if board_cp.is_checkmate():
+            move += "#"
+        else:
+            move += "+"
+
     return move
 
 folder_path = "res/templates_labeled_name/source"
@@ -120,9 +163,9 @@ for i in range(0, images_count):
     board_after = chess.Board(fen_after)
     
     move = get_move(board_before, board_after)
-    predictions.append((f'img{i}', move, board_before.fen(), board_after.fen()))
+    predictions.append((f'img{i}', move))
     print(f'image_log: {i}')
 
-headers = ['image', 'label', 'board_before', 'board_after']
+headers = ['image', 'label']
 df = pd.DataFrame(predictions, columns=headers)
 df.to_csv('predictions.csv', index=False)
