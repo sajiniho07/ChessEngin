@@ -26,11 +26,20 @@ def populate_board(image, mask, board, piece_type, piece_color):
             x = j * square_size
             y = i * square_size
             square_img = image[y:y+square_size, x:x+square_size]
+<<<<<<< HEAD
             gray_img1 = cv2.cvtColor(square_img, cv2.COLOR_BGR2GRAY)
             gray_img2 = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
             
             (score, diff) = ssim(gray_img1, gray_img2, full=True)
             if score > 0.7:
+=======
+            square_img = square_img[1:14, 1:14]
+            square_median = medianBlur(square_img)
+            square_sharp = sharp_image(square_median)
+            
+            (score, diff) = ssim(square_sharp, mask_sharp, full=True)
+            if score > 0.6:
+>>>>>>> 1d67264 (refactor: solve prob 4.)
                 piece = chess.Piece(piece_type, piece_color)
                 board.set_piece_at(chess.square(j, 7 - i), piece)
 
@@ -168,4 +177,4 @@ for i in range(0, images_count):
 
 headers = ['image', 'label']
 df = pd.DataFrame(predictions, columns=headers)
-df.to_csv('predictions.csv', index=False)
+df.to_csv('predictions_4.csv', index=False)

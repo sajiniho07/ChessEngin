@@ -3,13 +3,7 @@ import numpy as np
 import os
 
 def crop_image_border(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    thresh_value = 130
-    _, thresh = cv2.threshold(gray, thresh_value, 255, cv2.THRESH_BINARY)
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    largest_contour = max(contours, key=cv2.contourArea)
-    x, y, w, h = cv2.boundingRect(largest_contour)
-    cropped_img = image[x:x+w, x:x+w]
+    cropped_img = image[5:123, 5:123]
     resized_img = cv2.resize(cropped_img, (120, 120), interpolation=cv2.INTER_AREA)
     return resized_img
 
@@ -28,12 +22,10 @@ def template_maker(image, prefix_name):
             if num_colors > 2:
                 cv2.imwrite(prefix_name + f'_{i*8+j}.png', square_img)
 
-main_source_path = "res/templates_labeled_name/source/"
+main_source_path = "res/Problem04/test/"
 main_file_list = os.listdir(main_source_path)
 
-i = 1
-for main_file_name in main_file_list:
-    img = cv2.imread("res/Problem03/test/img1.png")
-    new_img = crop_image_border(img)
+for i in range(5, 6):
+    img_before = cv2.imread(os.path.join(main_source_path, f'img{i}_after.png'))
+    new_img = crop_image_border(img_before)
     template_maker(new_img, f'{i}')
-    i += 1
