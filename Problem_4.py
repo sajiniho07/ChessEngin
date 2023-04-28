@@ -1,24 +1,35 @@
 import cv2
 import os
 import pandas as pd
+import numpy as np
 import chess
 from skimage.metrics import structural_similarity as ssim
 
 def count_files_with_extension(path, extension):
     return int(len([f for f in os.listdir(path) if f.endswith(extension)]) / 2)
 
+def medianBlur(img):
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_median = cv2.medianBlur(gray_img, 3)
+    return img_median
+
+def sharp_image(img):
+    kernel = np.array([[-1, -1, -1],
+        [-1,  9, -1],
+        [-1, -1, -1]
+        ])
+    sharp = cv2.filter2D(img, -1, kernel)
+    return sharp
+
 def crop_image_border(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    thresh_value = 130
-    _, thresh = cv2.threshold(gray, thresh_value, 255, cv2.THRESH_BINARY)
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    largest_contour = max(contours, key=cv2.contourArea)
-    x, y, w, h = cv2.boundingRect(largest_contour)
-    cropped_img = image[x:x+w, x:x+w]
+    cropped_img = image[5:123, 5:123]
     resized_img = cv2.resize(cropped_img, (120, 120), interpolation=cv2.INTER_AREA)
     return resized_img
 
 def populate_board(image, mask, board, piece_type, piece_color):
+    mask = mask[1:14, 1:14]
+    mask_median = medianBlur(mask)
+    mask_sharp = sharp_image(mask_median)
     height, width, _ = image.shape
     square_size = height // 8
     for i in range(8):
@@ -26,20 +37,12 @@ def populate_board(image, mask, board, piece_type, piece_color):
             x = j * square_size
             y = i * square_size
             square_img = image[y:y+square_size, x:x+square_size]
-<<<<<<< HEAD
-            gray_img1 = cv2.cvtColor(square_img, cv2.COLOR_BGR2GRAY)
-            gray_img2 = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-            
-            (score, diff) = ssim(gray_img1, gray_img2, full=True)
-            if score > 0.7:
-=======
             square_img = square_img[1:14, 1:14]
             square_median = medianBlur(square_img)
             square_sharp = sharp_image(square_median)
             
             (score, diff) = ssim(square_sharp, mask_sharp, full=True)
             if score > 0.6:
->>>>>>> 1d67264 (refactor: solve prob 4.)
                 piece = chess.Piece(piece_type, piece_color)
                 board.set_piece_at(chess.square(j, 7 - i), piece)
 
@@ -158,7 +161,8 @@ def get_move(board_before, board_after):
 
     return move
 
-folder_path = "res/templates_labeled_name/source"
+# folder_path = "res/templates_labeled_name/source"
+folder_path = "res/Problem04/test"
 predictions = []
 images_count = count_files_with_extension(folder_path, ".png")
 
@@ -177,4 +181,4 @@ for i in range(0, images_count):
 
 headers = ['image', 'label']
 df = pd.DataFrame(predictions, columns=headers)
-df.to_csv('predictions_4.csv', index=False)
+df.to_csv('predictions.csv', index=False)
